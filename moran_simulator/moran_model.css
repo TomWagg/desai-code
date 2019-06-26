@@ -93,3 +93,10 @@ input::-webkit-inner-spin-button {
     background: #eb6864;
     cursor: pointer;
 }
+
+.circle {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
