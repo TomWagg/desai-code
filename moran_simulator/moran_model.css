@@ -10,6 +10,11 @@ label {
     margin-bottom: 0;
 }
 
+input[type="text"], .linked-input {
+    font-size: 1vw;
+    margin: auto;
+}
+
 .modal-dialog {
     max-width: 100%;
 }
@@ -55,10 +60,8 @@ label {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0;
-    /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 .slider {
@@ -80,8 +83,8 @@ input::-webkit-inner-spin-button {
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 2vw;
+    height: 2vw;
     background: #eb6864;
     cursor: pointer;
     border-radius: 5px;
@@ -95,8 +98,45 @@ input::-webkit-inner-spin-button {
 }
 
 .circle {
+    position: unset;
+    color: white;
     display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
+}
+
+/* .circle::before {
+    position: relative;
+    top: 3px;
+    left: 12px;
+}
+
+.circle.bg-primary::before {
+    content: "A";
+}
+
+.circle.bg-info::before {
+    content: "a";
+} */
+
+@keyframes pulse_animation {
+    0% { transform: scale(1); }
+    10% { transform: scale(1.02); }
+    20% { transform: scale(1.04); }
+    30% { transform: scale(1.06); }
+    40% { transform: scale(1.08); }
+    50% { transform: scale(1.10); }
+    60% { transform: scale(1.08); }
+    70% { transform: scale(1.06); }
+    80% { transform: scale(1.04); }
+    90% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation-name: pulse_animation;
+    animation-duration: 500ms;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
 }

@@ -45,39 +45,41 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-3">
                                             <h3>Moran Model Simulator</h3>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="row text-center">
+                                                <div class="col m-auto">
+                                                    <span class="circle bg-primary"></span><h6> $A$ Allele: <span
+                                                        id="primary_count"></span></h6>
+                                                </div>
+                                                <div class="col m-auto">
+                                                    <span class="circle bg-info"></span><h6> $a$ Allele: <span
+                                                        id="secondary_count"></span></h6>
+                                                </div>
+                                                <div class="col m-auto">
+                                                    <i class="far fa-clock" style="font-size: 35px;"></i><h6> Time: <span
+                                                        id="generation_count">0</span></h6>
+                                                </div>
+                                            </div>
+                                            <hr class="mb-2 mt-2">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="start_count">Start Count, $n_0$</label>
-                                                <div class="row no-gutters">
-                                                    <div class="col-9 pr-2">
-                                                        <input id="start_count" class="slider linked-input"
-                                                            data-linked="start_count_typing" type="range" min="1"
-                                                            max="9" value="5">
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <input id="start_count_typing" class="form-control linked-input"
-                                                            data-linked="start_count" type="number" min="1" max="9"
-                                                            value="5">
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="form-group">
                                                 <label for="fitness">Relative Fitness, $s$</label>
                                                 <div class="row no-gutters">
                                                     <div class="col-9 pr-2">
                                                         <input id="fitness" class="slider linked-input"
                                                             data-linked="fitness_typing" type="range" min="-1" max="1"
-                                                            value="0" step="0.1">
+                                                            value="0.5" step="0.1">
                                                     </div>
-                                                    <div class="col-3">
+                                                    <div class="col-3 d-flex flex-column">
                                                         <input id="fitness_typing" class="form-control linked-input"
                                                             data-linked="fitness" type="number" min="-1" max="1"
-                                                            value="0">
+                                                            value="0.5" step="0.1">
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,7 +91,7 @@
                                                             data-linked="mutation_mu_typing" type="range" min="0"
                                                             max="1" value="0" step="0.1">
                                                     </div>
-                                                    <div class="col-3">
+                                                    <div class="col-3 d-flex flex-column">
                                                         <input id="mutation_mu_typing" class="form-control linked-input"
                                                             data-linked="mutation_mu" type="number" min="0" max="1"
                                                             value="0" step="0.1">
@@ -102,12 +104,12 @@
                                                     <div class="col-9 pr-2">
                                                         <input id="mutation_nu" class="slider linked-input"
                                                             data-linked="mutation_nu_typing" type="range" min="0"
-                                                            max="1" value="0" step="0.1">
+                                                            max="1" value="0.3" step="0.1">
                                                     </div>
-                                                    <div class="col-3">
+                                                    <div class="col-3 d-flex flex-column">
                                                         <input id="mutation_nu_typing" class="form-control linked-input"
                                                             data-linked="mutation_nu" type="number" min="0" max="1"
-                                                            value="0" step="0.1">
+                                                            value="0.3" step="0.1">
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,14 +117,13 @@
                                                 Run</button>
                                             <button class="btn btn-primary btn-block" id="reset">Reset
                                                 Values</button>
-                                            <button class="btn btn-primary btn-block" id="clear">Clear
-                                                Plot</button>
-                                            <small>
-                                                <button class="btn-help text-primary btn-block mt-2"
-                                                    id="help_link">Help!</button>
-                                            </small>
+                                            <button class="btn btn-primary btn-block" id="stop">Stop
+                                                Simulation</button>
+                                            <small><button class="btn-help text-primary btn-block mt-2"
+                                                    id="help_link">Help!</button></small>
                                         </div>
-                                        <div id="circle_container" class="col-9">
+                                        <div id="circle_cont" class="col-9">
+
                                         </div>
                                     </div>
                                 </div>
