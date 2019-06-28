@@ -80,7 +80,7 @@ A mutation for a specific locus in a genome
 class Mutation:
     def __init__(self, inception, locus, fitness=None, current=0, parent=None):
         if fitness is None:
-            self.fitness = 1 + np.random.normal(0.5, 1)
+            self.fitness = 1 + np.random.normal(0, 1)
         else:
             self.fitness = fitness
         self.inception = inception
@@ -136,52 +136,57 @@ def mutation_occurs(mutation_rate):
     return bool(np.random.choice([0, 1], 1, True, [1 - mutation_rate, mutation_rate]))
 
 """ Create a muller plot of the mutations that had adbunance of at least the cutoff at some time """
-def plot_mutation_evolution(mutations, time, colorscale=False, cutoff=0.5):
+def plot_mutation_evolution(mutations, time, colorscale=False, cutoff=0.5, lines=False):
     long_lived_mutations = []
     for mutation in mutations:
         if max(mutation.count) > cutoff * POP_SIZE:
-            mutation.print_self()
+            # mutation.print_self()
             mutation.count = [0 for i in range(mutation.inception)] + mutation.count
             diff = len(time) - len(mutation.count)
             if diff != 0:
                 mutation.count = mutation.count + [0 for i in range(diff)]
             long_lived_mutations.append(mutation)
-    counts = np.array([mutation.count for mutation in long_lived_mutations])
+    counts = np.array([np.divide(mutation.count, POP_SIZE) for mutation in long_lived_mutations])
     fitnesses = np.array([round(mutation.fitness, 2) for mutation in long_lived_mutations])
+    labels = np.array([r"$s$:{0}, locus:{1}".format(round(mutation.fitness - 1, 2), mutation.locus) for mutation in long_lived_mutations])
 
     if len(long_lived_mutations) == 0:
         print("No mutations under conditions of given cutoff")
         return
 
-    if colorscale:
-        cmap = plt.cm.rainbow
-        norm = colours.Normalize(vmin=min(fitnesses), vmax=max(fitnesses))
-        sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
-        plt.colorbar(sm)
-        plt.stackplot(time, counts, baseline="sym", labels=fitnesses, colors=cmap(norm(fitnesses)))
+    if lines:
+        for i in range(len(counts)):
+            plt.plot(time, counts[i], label=labels[i], linewidth=0.5)
     else:
-        plt.stackplot(time, counts, baseline="sym", labels=fitnesses)
+        # plt.ylim((-POP_SIZE / 2, POP_SIZE / 2))
+        ax = plt.gca()
+        ax.set_facecolor("xkcd:sky blue")
+        if colorscale:
+            cmap = plt.cm.rainbow
+            norm = colours.Normalize(vmin=min(fitnesses), vmax=max(fitnesses))
+            sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+            plt.colorbar(sm)
+            plt.stackplot(time, counts, baseline="sym", labels=fitnesses, colors=cmap(norm(fitnesses)))
+        else:
+            plt.stackplot(time, counts, baseline="sym", labels=labels)
 
-    plt.ylim((-POP_SIZE / 2, POP_SIZE / 2))
     plt.ylabel("Mutation Frequency")
     plt.xlim((0, GENERATIONS))
     plt.xlabel("Time")
     plt.legend(loc="upper left", ncol=2, fontsize='xx-small')
 
-    ax = plt.gca()
-    ax.set_facecolor("xkcd:sky blue")
     plt.show()
 
 GENERATIONS = 10000
-POP_SIZE = 100
-LOCI = 1
+POP_SIZE = 200
+LOCI = 2
 mutations = []
-mutation_rate = 20 / GENERATIONS
+mutation_rate = 50 / GENERATIONS
 
 def main():
     pop = Population(POP_SIZE, LOCI)
     evolve_population(pop, GENERATIONS)
-    plot_mutation_evolution(mutations, range(GENERATIONS), colorscale=True, cutoff=0)
+    plot_mutation_evolution(mutations, range(GENERATIONS), colorscale=True, cutoff=0.05)
 
 if __name__ == "__main__":
     main()
