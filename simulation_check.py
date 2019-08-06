@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import sys
 
 """ A population split into M demes with members having either A or a alleles """
@@ -95,7 +96,7 @@ class Deme:
         print("a count {0}, A count {1}, Environment {2}".format(self.count["a"], self.count["A"], self.environment))
 
 def main():
-    REPEATS = 1000
+    REPEATS = 100
     s = 0.01
     f = 10
 
@@ -116,8 +117,8 @@ def main():
             },
             "evolve": {
                 "selection": {
-                    "a": [f * s, 0],
-                    "A": [0, s]
+                    "a": [0, 0],
+                    "A": [s, s]
                 },
                 "mu": 0,
                 "nu": 0,
