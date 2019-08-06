@@ -38,10 +38,13 @@ class Population:
             self.age += 1
 
     def migrate(self):
+        # calculate the number of migrants
+        n_migrant = round(self.m * self.N)
+
         # randomly choose m individuals from each deme, put them in the pool and adjust deme counts
         migrant_pool = []
         for deme in self.demes:
-            migrants = list(np.random.choice(["a"] * deme.count["a"] + ["A"] * deme.count["A"], size=self.m, replace=False))
+            migrants = list(np.random.choice(["a"] * deme.count["a"] + ["A"] * deme.count["A"], size=n_migrant, replace=False))
             migrant_pool += migrants
             for allele in ["a", "A"]:
                 deme.count[allele] -= migrants.count(allele)
@@ -52,8 +55,8 @@ class Population:
 
         # remove the first m individuals from the pool and adjust deme counts back up
         for deme in self.demes:
-            selection = migrant_pool[:self.m]
-            del migrant_pool[:self.m]
+            selection = migrant_pool[:n_migrant]
+            del migrant_pool[:n_migrant]
             for allele in ["a", "A"]:
                 deme.count[allele] += selection.count(allele)
 
@@ -99,7 +102,7 @@ def main():
     s = 0.01
     f = 10
 
-    # didn't provide CLAs
+    # check if they didn't provide CLAs
     if len(sys.argv) != 3:
         print("USAGE: python demes.py M N")
         return
@@ -112,7 +115,7 @@ def main():
             "pop": {
                 "demes": M,
                 "deme_size": N,
-                "m": 5
+                "m": 0.01
             },
             "evolve": {
                 "selection": {
