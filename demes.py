@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import time
 
 """ A population split into M demes with members having either A or a alleles """
 class Population:
@@ -98,9 +99,11 @@ class Deme:
         print("a count {0}, A count {1}, Environment {2}".format(self.count["a"], self.count["A"], self.environment))
 
 def main():
-    REPEATS = 1000
+    REPEATS = 100
     s = 0.01
     f = 10
+
+    start = time.time()
 
     # check if they didn't provide CLAs
     if len(sys.argv) != 3:
@@ -137,6 +140,7 @@ def main():
     avgtime /= fix_prob if fix_prob != 0 else 1
     fix_prob /= len(averages)
     print(M, N, fix_prob, round(avgtime), sep=",")
+    print(time.time() - start)
 
 # create new population, evolve until an allele fixes and return stats
 def run_simulation(params):
